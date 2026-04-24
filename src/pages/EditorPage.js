@@ -35,7 +35,7 @@ import {
 
 function Field({ label, helper, children }) {
     return (
-        <label className="block">
+        <label className="block min-w-0 max-w-full">
             <span className="app-text-main mb-2 block text-sm font-semibold">
                 {label}
             </span>
@@ -79,7 +79,7 @@ function ColorInput({ value, onChange }) {
 
     return (
         <div
-            className="flex items-center gap-3 rounded-2xl border px-3 py-2"
+            className="flex min-w-0 max-w-full items-center gap-3 rounded-2xl border px-3 py-2"
             style={{
                 borderColor: "var(--app-border)",
                 background: "var(--app-panel-soft)",
@@ -95,7 +95,7 @@ function ColorInput({ value, onChange }) {
                 value={value || normalizedValue}
                 onChange={(event) => onChange(event.target.value)}
                 placeholder="#F7F7F5"
-                className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                className="min-w-0 max-w-full flex-1 bg-transparent text-sm outline-none"
                 style={{ color: "var(--app-primary)" }}
             />
         </div>
@@ -136,7 +136,7 @@ function Toggle({ checked, onChange, label }) {
 
 function SegmentedControl({ label, options, value, onChange }) {
     return (
-        <div>
+        <div className="min-w-0 max-w-full">
             <p className="app-text-main mb-2 text-sm font-semibold">{label}</p>
             <div
                 className="grid gap-2"
@@ -148,7 +148,7 @@ function SegmentedControl({ label, options, value, onChange }) {
                         key={option.id}
                         type="button"
                         onClick={() => onChange(option.id)}
-                        className="rounded-2xl border px-3 py-2 text-sm font-semibold transition"
+                        className="min-w-0 rounded-2xl border px-3 py-2 text-center text-sm font-semibold transition"
                         style={
                             value === option.id
                                 ? {
@@ -172,9 +172,9 @@ function SegmentedControl({ label, options, value, onChange }) {
 
 function AccentPicker({ value, onChange }) {
     return (
-        <div>
+        <div className="min-w-0 max-w-full">
             <p className="app-text-main mb-2 text-sm font-semibold">Accent</p>
-            <div className="grid grid-cols-6 gap-2">
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
                 {accentOptions.map((accent) => (
                     <button
                         key={accent.id}
@@ -305,7 +305,7 @@ function ProductivityFields({ type, params, update }) {
                         onChange={(value) => update("title", value)}
                     />
                 </Field>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                     <Field label="Focus label">
                         <TextInput
                             value={params.focusLabel}
@@ -319,7 +319,7 @@ function ProductivityFields({ type, params, update }) {
                         />
                     </Field>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                     <Field label="Focus minutes">
                         <TextInput
                             type="number"
@@ -370,7 +370,7 @@ function ProductivityFields({ type, params, update }) {
                     <p className="app-text-main mb-2 text-sm font-semibold">
                         Visible units
                     </p>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid gap-2 sm:grid-cols-2">
                         {unitDefs.map((unit) => (
                             <Toggle
                                 key={unit.id}
@@ -407,7 +407,7 @@ function ProductivityFields({ type, params, update }) {
                         onChange={(value) => update("title", value)}
                     />
                 </Field>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                     <Field label="Days">
                         <TextInput
                             type="number"
@@ -698,7 +698,7 @@ function UtilityFields({ type, params, update }) {
                         onChange={(value) => update("title", value)}
                     />
                 </Field>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                     <Field label="Count">
                         <TextInput
                             type="number"
@@ -868,7 +868,7 @@ export default function EditorPage() {
     };
 
     return (
-        <div className="mx-auto min-h-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="editor-page mx-auto min-h-full max-w-full overflow-x-hidden px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
             <WidgetHeader
                 category={widget.category}
                 icon={widget.icon || config.icon || SlidersHorizontal}
@@ -884,9 +884,9 @@ export default function EditorPage() {
                 }
             />
 
-            <div className="grid gap-6 lg:grid-cols-[390px_1fr] lg:items-stretch">
-                <aside className="lg:min-h-0">
-                    <div className="glass-panel rounded-[2rem] p-5 lg:flex lg:h-full lg:min-h-[560px] lg:flex-col">
+            <div className="grid min-w-0 max-w-full gap-6 lg:grid-cols-[390px_minmax(0,1fr)] lg:items-stretch">
+                <aside className="min-w-0 lg:min-h-0">
+                    <div className="glass-panel min-w-0 overflow-x-hidden rounded-[2rem] p-5 lg:flex lg:h-full lg:min-h-[560px] lg:flex-col">
                         <div className="mb-5 flex items-center justify-between gap-3">
                             <h2 className="app-text-main text-lg font-semibold">
                                 Settings
@@ -939,14 +939,14 @@ export default function EditorPage() {
                 </aside>
 
                 <section
-                    className="min-h-[560px] rounded-[2rem] border p-4 backdrop-blur-xl sm:p-6 lg:flex lg:h-full lg:flex-col"
+                    className="min-w-0 max-w-full rounded-[2rem] border p-4 backdrop-blur-xl sm:p-6 lg:flex lg:min-h-[560px] lg:h-full lg:flex-col"
                     style={{
                         borderColor: "var(--app-border)",
                         background: "var(--app-overlay)",
                         boxShadow: "var(--app-shadow)",
                     }}>
-                    <div className="mb-4 flex items-center justify-between gap-4">
-                        <div>
+                    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                        <div className="min-w-0">
                             <p className="app-text-main text-sm font-semibold">
                                 Live preview
                             </p>
@@ -958,27 +958,29 @@ export default function EditorPage() {
                         <Link
                             to={createEmbedPath(widget, embedParams)}
                             target="_blank"
-                            className="app-button-secondary inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition">
+                            className="app-button-secondary inline-flex max-w-full items-center gap-2 self-start rounded-full px-4 py-2 text-sm font-semibold transition">
                             <ExternalLink size={16} />
                             Open embed
                         </Link>
                     </div>
                     <div className="preview-stage min-h-[470px] rounded-[1.6rem] p-3 transition-colors">
+                        <div className="h-full w-full overflow-x-auto overflow-y-hidden">
                         <motion.div
                             key={`${widget.slug}-${embedParams.toString()}`}
                             initial={{ opacity: 0, scale: 0.98 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.22 }}
-                            className="h-full w-full">
+                            className="h-full min-w-full">
                             <WidgetRenderer
                                 type={widget.type}
                                 params={params}
                                 fill
                             />
                         </motion.div>
+                        </div>
                     </div>
                     <div
-                        className="mt-5 border-t pt-5"
+                        className="mt-5 min-w-0 border-t pt-5"
                         style={{ borderColor: "var(--app-border)" }}>
                         <div className="mb-3">
                             <p className="app-text-main text-sm font-semibold">
@@ -989,9 +991,9 @@ export default function EditorPage() {
                                 panel.
                             </p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex min-w-0 items-center gap-3">
                             <div
-                                className="flex h-11 min-w-0 flex-1 items-center gap-3 rounded-2xl border px-3"
+                                className="flex h-11 min-w-0 max-w-full flex-1 items-center gap-3 overflow-hidden rounded-2xl border px-3"
                                 style={{
                                     borderColor: "var(--app-border)",
                                     background: "var(--app-panel-soft)",
@@ -1006,7 +1008,7 @@ export default function EditorPage() {
                                     readOnly
                                     title={embedLink}
                                     onFocus={(event) => event.target.select()}
-                                    className="h-full min-w-0 w-full overflow-hidden text-ellipsis whitespace-nowrap bg-transparent text-xs outline-none"
+                                    className="h-full min-w-0 w-full overflow-x-auto whitespace-nowrap bg-transparent text-xs outline-none"
                                     style={{ color: "var(--app-primary)" }}
                                 />
                             </div>
@@ -1028,9 +1030,9 @@ export default function EditorPage() {
                                 )}
                             </button>
                         </div>
-                        <div className="mt-3 flex items-center gap-3">
+                        <div className="mt-3 flex min-w-0 items-center gap-3">
                             <div
-                                className="flex h-11 min-w-0 flex-1 items-center gap-3 rounded-2xl border px-3"
+                                className="flex h-11 min-w-0 max-w-full flex-1 items-center gap-3 overflow-hidden rounded-2xl border px-3"
                                 style={{
                                     borderColor: "var(--app-border)",
                                     background: "var(--app-panel-soft)",
@@ -1045,7 +1047,7 @@ export default function EditorPage() {
                                     readOnly
                                     title={htmlSnippet}
                                     onFocus={(event) => event.target.select()}
-                                    className="h-full min-w-0 w-full overflow-hidden text-ellipsis whitespace-nowrap bg-transparent text-xs outline-none"
+                                    className="h-full min-w-0 w-full overflow-x-auto whitespace-nowrap bg-transparent text-xs outline-none"
                                     style={{ color: "var(--app-primary)" }}
                                 />
                             </div>

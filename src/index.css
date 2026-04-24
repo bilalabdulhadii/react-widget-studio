@@ -117,6 +117,13 @@ input,
 select,
 textarea {
     font: inherit;
+    max-width: 100%;
+}
+
+img,
+iframe,
+canvas {
+    max-width: 100%;
 }
 
 button {
