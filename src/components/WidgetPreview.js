@@ -1163,10 +1163,11 @@ export default function WidgetPreview({ widget }) {
     const { appliedTheme } = useThemeMode();
     const previewMode = getOppositeWidgetMode(appliedTheme);
     const accent = getAccent(widget.defaults?.accent);
+    const useEmbedLightBackground = previewMode === "light";
     const themeVars = getWidgetThemeVars(previewMode, {
         appTheme: appliedTheme,
-        customBackground: false,
-        backgroundColor: "#F7F7F5",
+        customBackground: useEmbedLightBackground,
+        backgroundColor: useEmbedLightBackground ? "#FFFFFF" : "#F7F7F5",
     });
     const config = getPreviewConfig(widget);
     const PreviewComponent =

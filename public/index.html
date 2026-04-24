@@ -24,7 +24,9 @@
                 var resolvedAppearance =
                     appearance === "dark" ? "dark" : "light";
                 var pageBackground =
-                    customBackground && sanitizedBackgroundColor
+                    resolvedAppearance === "light" && !customBackground
+                        ? "#FFFFFF"
+                        : customBackground && sanitizedBackgroundColor
                         ? sanitizedBackgroundColor
                         : resolvedAppearance === "dark"
                           ? "#191919"

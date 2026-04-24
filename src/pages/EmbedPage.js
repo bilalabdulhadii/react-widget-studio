@@ -51,10 +51,17 @@ export default function EmbedPage() {
         [searchParams, widget],
     );
     const embedAppearance = resolveWidgetTheme(params.mode, "light");
-    const pageBackground = getWidgetPageBackground(params.mode, {
+    const customBackgroundEnabled = toWidgetBoolean(
+        params.customBackground,
+        false,
+    );
+    const pageBackground =
+        embedAppearance === "light" && !customBackgroundEnabled
+            ? "#FFFFFF"
+            : getWidgetPageBackground(params.mode, {
         customBackground: params.customBackground,
         backgroundColor: params.backgroundColor,
-    });
+              });
 
     useEffect(() => {
         if (!widget) {
@@ -66,7 +73,7 @@ export default function EmbedPage() {
         const root = document.getElementById("root");
         root?.classList.add(`embed-${embedAppearance}`);
 
-        if (toWidgetBoolean(params.customBackground, false)) {
+        if (customBackgroundEnabled) {
             document.documentElement.classList.add("embed-custom-background");
             document.body.classList.add("embed-custom-background");
             root?.classList.add("embed-custom-background");
@@ -95,7 +102,7 @@ export default function EmbedPage() {
                     node.style.removeProperty("background-image");
                 });
         };
-    }, [embedAppearance, pageBackground, params.customBackground, widget]);
+    }, [customBackgroundEnabled, embedAppearance, pageBackground, widget]);
 
     if (!widget && legacyWidget) {
         return (

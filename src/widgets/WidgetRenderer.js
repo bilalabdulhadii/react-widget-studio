@@ -82,10 +82,16 @@ function WidgetFrame({
   const normalizedMode = normalizeWidgetMode(mode);
   const tokens = getWidgetTokens();
   const accent = getAccent(accentId);
+  const useEmbedLightBackground =
+    normalizedMode === 'light' && !customBackground && (embed || fill || preview);
+  const effectiveCustomBackground =
+    useEmbedLightBackground ? true : customBackground;
+  const effectiveBackgroundColor =
+    useEmbedLightBackground ? '#FFFFFF' : backgroundColor;
   const themeVars = getWidgetThemeVars(normalizedMode, {
     appTheme: appliedTheme,
-    customBackground,
-    backgroundColor,
+    customBackground: effectiveCustomBackground,
+    backgroundColor: effectiveBackgroundColor,
   });
 
     return (

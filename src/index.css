@@ -89,8 +89,8 @@ html.embed-light body,
 html.embed-light #root,
 body.embed-light,
 #root.embed-light {
-    background: #f7f7f5 !important;
-    background-color: #f7f7f5 !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
 }
 
 html.embed-dark,
