@@ -1,0 +1,641 @@
+.flip-clock {
+    --border-radius: 0.15em;
+    --font-size: 4.5em;
+    --font-family: "Helvetica Neue", Helvetica, sans-serif;
+    --width: 1em;
+    --height: 1.45em;
+    --animation-duration: 250ms;
+    --animation-delay: var(--animation-duration);
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: flex-end;
+    gap: 0.25rem;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    text-align: center;
+    user-select: none;
+}
+
+.flip-clock .flip-clock-label {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.flip-clock .flip-clock-divider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--height);
+    min-width: 0.24em;
+    font-family: serif;
+}
+
+.flip-clock .flip-clock-divider .flip-clock-divider-inner {
+    font-size: 1.25em;
+}
+
+.flip-clock .flip-clock-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.flip-clock .flip-clock-group + .flip-clock-group {
+    margin-left: 1rem;
+}
+
+.flip-clock .flip-clock-group .flip-clock-group-items {
+    display: flex;
+    align-items: end;
+    gap: 0.25rem;
+}
+
+.flip-clock .flip-clock-card {
+    position: relative;
+    flex-shrink: 0;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--border-radius);
+    font-weight: 700;
+}
+
+.flip-clock .flip-clock-card:not(.animate) .active .flip-clock-card-item-inner {
+    z-index: 4;
+}
+
+.flip-clock
+    .flip-clock-card:not(.animate)
+    .flip-clock-card-item-inner
+    .top::after,
+.flip-clock
+    .flip-clock-card:not(.animate)
+    .flip-clock-card-item-inner
+    .bottom::after {
+    display: none;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner:first-child {
+    z-index: 2;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .top,
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .bottom {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    font-size: 1em;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .top::after,
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .bottom::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .top::before,
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .bottom::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 1px;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .top {
+    line-height: var(--height);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .top::after {
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .top::before {
+    bottom: 0;
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .bottom {
+    line-height: 0;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.flip-clock .flip-clock-card .flip-clock-card-item-inner .bottom::after {
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.flip-clock .flip-clock-card.animate {
+    animation-duration: var(--animation-duration);
+    animation-delay: var(--animation-delay);
+}
+
+.flip-clock .flip-clock-card.animate .flip-clock-card-item-inner {
+    perspective: 15em;
+}
+
+.flip-clock .flip-clock-card.animate .top,
+.flip-clock .flip-clock-card.animate .bottom,
+.flip-clock .flip-clock-card.animate .active,
+.flip-clock .flip-clock-card.animate .active > div,
+.flip-clock .flip-clock-card.animate .before,
+.flip-clock .flip-clock-card.animate .before > div {
+    animation-delay: inherit;
+    animation-duration: inherit;
+    animation-fill-mode: forwards;
+    animation-timing-function: inherit;
+}
+
+.flip-clock .flip-clock-card.animate .top::after,
+.flip-clock .flip-clock-card.animate .bottom::after,
+.flip-clock .flip-clock-card.animate .active::after,
+.flip-clock .flip-clock-card.animate .active > div::after,
+.flip-clock .flip-clock-card.animate .before::after,
+.flip-clock .flip-clock-card.animate .before > div::after {
+    animation-duration: inherit;
+    animation-fill-mode: inherit;
+}
+
+.flip-clock .flip-clock-card.animate .before {
+    z-index: 3;
+    animation-delay: 0s;
+    animation-timing-function: ease-in;
+}
+
+.flip-clock .flip-clock-card.animate .before .top {
+    z-index: 2;
+    transform-origin: bottom center;
+    animation-name: flip-clock-top;
+}
+
+.flip-clock .flip-clock-card.animate .before .top::after,
+.flip-clock .flip-clock-card.animate .before .bottom::after {
+    animation-name: flip-clock-show-shadow;
+}
+
+.flip-clock .flip-clock-card.animate .active {
+    z-index: 2;
+    animation-timing-function: ease-out;
+}
+
+.flip-clock .flip-clock-card.animate .active > div {
+    animation-name: flip-clock-indexing;
+}
+
+.flip-clock .flip-clock-card.animate .active .top::after,
+.flip-clock .flip-clock-card.animate .active .bottom::after {
+    animation-name: flip-clock-hide-shadow;
+}
+
+.flip-clock .flip-clock-card.animate .active .bottom {
+    z-index: 2;
+    transform-origin: top center;
+    animation-name: flip-clock-bottom;
+}
+
+.flip-clock .flip-clock-card .before .top::after {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 1) 100%
+    );
+}
+
+.flip-clock .flip-clock-card .before .bottom::after {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+}
+
+@keyframes flip-clock-indexing {
+    0% {
+        z-index: 2;
+    }
+    1% {
+        z-index: 3;
+    }
+    100% {
+        z-index: 4;
+    }
+}
+
+@keyframes flip-clock-bottom {
+    0% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0);
+    }
+}
+
+@keyframes flip-clock-top {
+    0% {
+        transform: rotateX(0);
+    }
+    100% {
+        transform: rotateX(-90deg);
+    }
+}
+
+@keyframes flip-clock-show-shadow {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes flip-clock-hide-shadow {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.pattern-flip-clock {
+    --pattern-flip-font-size: clamp(2.05rem, 5.9vw, 4.1rem);
+    --pattern-flip-gap: 0.34rem;
+    --pattern-flip-divider-gap: 0.48rem;
+    --pattern-flip-width: 0.96em;
+    --pattern-flip-height: 1.3em;
+    --pattern-flip-radius: 0.22em;
+    --pattern-flip-period-width: 2.08em;
+    --pattern-flip-period-height: 1.08em;
+    --pattern-flip-text: var(--widget-text);
+    --pattern-flip-top-bg: var(--widget-inner-card-top);
+    --pattern-flip-bottom-bg: var(--widget-inner-card-bottom);
+    --pattern-flip-border: var(--widget-border);
+    --pattern-flip-divider: color-mix(
+        in srgb,
+        var(--widget-primary) 20%,
+        transparent
+    );
+    --pattern-flip-divider-text: var(--widget-muted);
+    --pattern-flip-shadow: var(--widget-inner-shadow);
+    --pattern-flip-top-highlight: color-mix(
+        in srgb,
+        var(--widget-base-surface) 72%,
+        transparent
+    );
+    --pattern-flip-bottom-highlight: color-mix(
+        in srgb,
+        var(--widget-base-surface) 12%,
+        transparent
+    );
+    --pattern-flip-before-top-shadow: linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--widget-base-surface) 10%, transparent) 0%,
+        color-mix(in srgb, var(--widget-primary) 22%, transparent) 100%
+    );
+    --pattern-flip-before-bottom-shadow: linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--widget-primary) 18%, transparent) 0%,
+        color-mix(in srgb, var(--widget-base-surface) 4%, transparent) 100%
+    );
+    --pattern-flip-active-top-shadow: linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--widget-base-surface) 10%, transparent) 0%,
+        color-mix(in srgb, var(--widget-primary) 5%, transparent) 100%
+    );
+    --pattern-flip-active-bottom-shadow: linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--widget-primary) 12%, transparent) 0%,
+        color-mix(in srgb, var(--widget-base-surface) 3%, transparent) 100%
+    );
+    --pattern-flip-label-text: var(--widget-muted);
+    display: inline-block;
+    min-width: 0;
+}
+
+.pattern-flip-clock__layout {
+    display: grid;
+    grid-template-areas:
+        "host period"
+        "labels .";
+    grid-template-columns: auto auto;
+    column-gap: 0.75rem;
+    row-gap: 0.82rem;
+    align-items: end;
+}
+
+.pattern-flip-clock__host {
+    grid-area: host;
+    display: flex;
+    align-items: flex-end;
+    min-width: 0;
+}
+
+.pattern-flip-clock .flip-clock {
+    --font-size: var(--pattern-flip-font-size);
+    --width: var(--pattern-flip-width);
+    --height: var(--pattern-flip-height);
+    --border-radius: var(--pattern-flip-radius);
+    --animation-duration: 380ms;
+    --animation-delay: 380ms;
+    width: auto;
+    align-items: flex-end;
+    gap: var(--pattern-flip-divider-gap);
+}
+
+.pattern-flip-clock .flip-clock > .flip-clock-group {
+    width: auto;
+}
+
+.pattern-flip-clock .flip-clock > .flip-clock-group > .flip-clock-group-items {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--pattern-flip-divider-gap);
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-group + .flip-clock-group {
+    margin-left: 0;
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-group .flip-clock-group-items {
+    gap: var(--pattern-flip-gap);
+    align-items: flex-end;
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-card {
+    width: var(--width);
+    height: var(--height);
+    border: 1px solid var(--pattern-flip-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--pattern-flip-shadow);
+    overflow: hidden;
+}
+
+.pattern-flip-clock
+    .flip-clock
+    .flip-clock-card
+    .flip-clock-card-item-inner
+    .top,
+.pattern-flip-clock
+    .flip-clock
+    .flip-clock-card
+    .flip-clock-card-item-inner
+    .bottom {
+    color: var(--pattern-flip-text);
+    text-shadow: none;
+}
+
+.pattern-flip-clock
+    .flip-clock
+    .flip-clock-card
+    .flip-clock-card-item-inner
+    .top {
+    background: var(--pattern-flip-top-bg);
+    box-shadow: inset 0 1px 0 var(--pattern-flip-top-highlight);
+}
+
+.pattern-flip-clock
+    .flip-clock
+    .flip-clock-card
+    .flip-clock-card-item-inner
+    .bottom {
+    background: var(--pattern-flip-bottom-bg);
+    box-shadow: inset 0 -1px 0 var(--pattern-flip-bottom-highlight);
+}
+
+.pattern-flip-clock
+    .flip-clock
+    .flip-clock-card
+    .flip-clock-card-item-inner
+    .top::before,
+.pattern-flip-clock
+    .flip-clock
+    .flip-clock-card
+    .flip-clock-card-item-inner
+    .bottom::before {
+    background: var(--pattern-flip-divider);
+    opacity: 1;
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-card .before .top::after {
+    background: var(--pattern-flip-before-top-shadow);
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-card .before .bottom::after {
+    background: var(--pattern-flip-before-bottom-shadow);
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-card .active .top::after {
+    background: var(--pattern-flip-active-top-shadow);
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-card .active .bottom::after {
+    background: var(--pattern-flip-active-bottom-shadow);
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-divider {
+    width: 0.26em;
+    height: var(--height);
+    color: var(--pattern-flip-divider-text);
+    font-family: inherit;
+    font-weight: 700;
+}
+
+.pattern-flip-clock .flip-clock .flip-clock-divider .flip-clock-divider-inner {
+    font-size: 1.05em;
+    line-height: 1;
+    transform: translateY(-0.02em);
+}
+
+.pattern-flip-clock__labels {
+    grid-area: labels;
+    display: grid;
+    gap: var(--pattern-flip-divider-gap);
+}
+
+.pattern-flip-clock__label {
+    min-width: 0;
+    text-align: center;
+    font-size: clamp(0.64rem, 1.45vw, 0.78rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pattern-flip-label-text);
+}
+
+.pattern-flip-period-group {
+    grid-area: period;
+    display: flex;
+    align-items: flex-end;
+    align-self: end;
+    height: 100%;
+}
+
+.pattern-flip-period {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(
+        var(--pattern-flip-font-size) * var(--pattern-flip-period-width)
+    );
+    height: calc(
+        var(--pattern-flip-font-size) * var(--pattern-flip-period-height)
+    );
+    border: 1px solid var(--pattern-flip-border);
+    border-radius: calc(var(--pattern-flip-radius) * 1.15);
+    box-shadow: var(--pattern-flip-shadow);
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.pattern-flip-period::before,
+.pattern-flip-period::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    height: 50%;
+}
+
+.pattern-flip-period::before {
+    top: 0;
+    background: var(--pattern-flip-top-bg);
+}
+
+.pattern-flip-period::after {
+    bottom: 0;
+    background: var(--pattern-flip-bottom-bg);
+}
+
+.pattern-flip-period__value {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--pattern-flip-text);
+    font-size: calc(var(--pattern-flip-font-size) * 0.34);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transform: translateX(0.05em);
+}
+
+.pattern-flip-period__value::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--pattern-flip-divider);
+}
+
+.pattern-static-flip {
+    width: 100%;
+}
+
+.pattern-static-flip__row {
+    display: grid;
+    width: 100%;
+    gap: var(--pattern-flip-divider-gap);
+}
+
+.pattern-static-flip__item {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.72rem;
+}
+
+.pattern-static-flip-card {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--pattern-flip-border);
+    border-radius: calc(var(--pattern-flip-radius) * 1.1);
+    box-shadow: var(--pattern-flip-shadow);
+    min-height: calc(var(--pattern-flip-font-size) * 1.22);
+}
+
+.pattern-static-flip-card__top,
+.pattern-static-flip-card__bottom {
+    position: absolute;
+    inset-inline: 0;
+    height: 50%;
+}
+
+.pattern-static-flip-card__top {
+    top: 0;
+    background: var(--pattern-flip-top-bg);
+    box-shadow: inset 0 1px 0 var(--pattern-flip-top-highlight);
+}
+
+.pattern-static-flip-card__bottom {
+    bottom: 0;
+    background: var(--pattern-flip-bottom-bg);
+    box-shadow: inset 0 -1px 0 var(--pattern-flip-bottom-highlight);
+}
+
+.pattern-static-flip-card__divider {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 1px;
+    transform: translateY(-1px);
+    background: var(--pattern-flip-divider);
+}
+
+.pattern-static-flip-card__value {
+    position: relative;
+    display: flex;
+    min-height: calc(var(--pattern-flip-font-size) * 1.22);
+    align-items: center;
+    justify-content: center;
+    padding: 0.3em 0.2em;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: clamp(1.15rem, 2vw + 0.3rem, 2rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--pattern-flip-text);
+}
+
+.pattern-static-flip__label {
+    width: 100%;
+    text-align: center;
+    font-size: clamp(0.62rem, 1.35vw, 0.76rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pattern-flip-label-text);
+}
+
+@media (max-width: 640px) {
+    .pattern-flip-clock .flip-clock .flip-clock-divider {
+        width: 0.22em;
+    }
+
+    .pattern-flip-clock__layout {
+        column-gap: 0.58rem;
+        row-gap: 0.68rem;
+    }
+
+    .pattern-flip-period {
+        margin-bottom: 0.05em;
+    }
+
+    .pattern-static-flip__item {
+        gap: 0.58rem;
+    }
+}

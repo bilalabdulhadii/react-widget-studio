@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://widget.bilalabdulhadi.com/sitemap.xml
