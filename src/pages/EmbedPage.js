@@ -17,9 +17,16 @@ export default function EmbedPage() {
         : getWidgetByLegacyRoute(slug, searchParams.get("style") || "");
 
     useEffect(() => {
+        document.documentElement.classList.add("embed-route");
         document.body.classList.add("embed-route");
+        const root = document.getElementById("root");
+        root?.classList.add("embed-route");
 
-        return () => document.body.classList.remove("embed-route");
+        return () => {
+            document.documentElement.classList.remove("embed-route");
+            document.body.classList.remove("embed-route");
+            root?.classList.remove("embed-route");
+        };
     }, []);
 
     useEffect(() => {

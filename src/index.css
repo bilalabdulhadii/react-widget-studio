@@ -75,8 +75,19 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+html.embed-route,
+body.embed-route,
+#root.embed-route {
+    background: transparent !important;
+}
+
+body.embed-route,
+#root.embed-route {
+    min-height: 100vh;
+}
+
 body.embed-route {
-    background: transparent;
+    background-image: none !important;
 }
 
 * {
