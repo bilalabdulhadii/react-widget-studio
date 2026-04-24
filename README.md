@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://www.linkedin.com/in/bilalabdulhadii/"><img src="https://img.shields.io/badge/Chat-Let's%20chat-darkseagreen?labelColor=gray&style=flat" alt="Chat" /></a>
   <a href="https://www.buymeacoffee.com/bilalabdulhadii"><img src="https://img.shields.io/badge/Donate%20$-Buy%20me%20a%20coffee-darkkhaki?labelColor=gray&style=flat" alt="Donate $" /></a>
-  <a href="https://github.com/bilalabdulhadii"><img src="https://img.shields.io/badge/Coding-Work%20Together-cornflowerblue?labelColor=gray&style=flat" alt="Coding" /></a>
+  <a href="https://github.com/bilalabdulhadii/react-widget-studio"><img src="https://img.shields.io/badge/Coding-Work%20Together-cornflowerblue?labelColor=gray&style=flat" alt="Coding" /></a>
 </p>
 
 <p align="center">
@@ -141,7 +141,7 @@ Widget Studio uses a simple split between builder routes and embed routes:
 
 ```html
 <iframe
-    src="https://your-domain.com/embed/flip-clock?appearance=dark&customBackground=false&seconds=true"
+    src="https://widget.bilalabdulhadi.com/embed/flip-clock?appearance=dark&customBackground=false&seconds=true"
     title="Flip Clock"
     style="width:100%;height:360px;border:0;border-radius:24px;overflow:hidden;"
     loading="lazy"></iframe>
@@ -172,6 +172,8 @@ Widget Studio uses a shared theme system across the app and widgets.
 - **Optional custom background color**
 
 Custom background changes only the outer page/background color. The widget card itself stays on the selected light or dark appearance.
+
+When custom background is off, embed pages use the default outer background for the selected appearance. In light mode, embeds default to a pure white outer background so they blend cleanly into Notion light pages.
 
 The widget renderer uses centralized token layers instead of ad hoc per-widget base colors:
 
