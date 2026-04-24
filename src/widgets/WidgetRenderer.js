@@ -21,7 +21,11 @@ import { useThemeMode } from '../hooks/useThemeMode';
 import { clampNumber, toBoolean } from '../utils/query';
 import FlipClockWidget from './FlipClockWidget';
 import { getEventFlipScale, getFlipCardVars } from './flipCardTheme';
-import { getWidgetThemeVars, getWidgetTokens, isWidgetTransparent, normalizeWidgetMode } from './widgetTheme';
+import {
+  getWidgetThemeVars,
+  getWidgetTokens,
+  normalizeWidgetMode,
+} from './widgetTheme';
 
 const unitDefs = [
   { id: 'years', label: 'Years', ms: 365 * 24 * 60 * 60 * 1000 },
@@ -55,14 +59,16 @@ function getWidgetAppearance(params) {
   const mode = normalizeWidgetMode(params.mode);
   return {
     mode,
-    transparent: isWidgetTransparent(params.mode, params.transparent),
+    customBackground: toBoolean(params.customBackground, false),
+    backgroundColor: cleanText(params.backgroundColor).trim(),
     tokens: getWidgetTokens(),
   };
 }
 
 function WidgetFrame({
   mode = 'system',
-  transparent = false,
+  customBackground = false,
+  backgroundColor = '',
   accentId,
   embed = false,
   preview = false,
@@ -76,12 +82,16 @@ function WidgetFrame({
   const normalizedMode = normalizeWidgetMode(mode);
   const tokens = getWidgetTokens();
   const accent = getAccent(accentId);
-  const themeVars = getWidgetThemeVars(normalizedMode, { appTheme: appliedTheme, transparent });
+  const themeVars = getWidgetThemeVars(normalizedMode, {
+    appTheme: appliedTheme,
+    customBackground,
+    backgroundColor,
+  });
 
-  return (
-    <div
-      className={[
-        'relative flex h-full w-full items-center justify-center overflow-hidden transition-all duration-500',
+    return (
+      <div
+        className={[
+        'embed-widget-shell relative flex h-full w-full items-center justify-center overflow-hidden transition-all duration-500',
         embed
           ? 'min-h-screen p-4'
           : fill
@@ -92,11 +102,14 @@ function WidgetFrame({
         tokens.outer,
         className,
       ].join(' ')}
-      style={{ ...themeVars, '--widget-accent': accent.color }}
+      style={{
+        ...themeVars,
+        '--widget-accent': accent.color,
+      }}
     >
       <div
         className={[
-          'relative mx-auto flex w-full overflow-hidden border transition-all duration-500',
+          'embed-page-shell relative mx-auto flex w-full overflow-hidden border transition-all duration-500',
           preview ? 'h-full max-w-none rounded-[1.2rem] p-4' : 'rounded-[1.75rem] p-5 sm:p-6',
           embed || fill ? 'max-w-3xl' : preview ? 'max-w-none' : 'max-w-xl',
           tokens.card,
@@ -250,7 +263,7 @@ function RangeInput({ value, min = 0, max = 100, step = 1, onChange, accent, lab
 }
 
 function AudioWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const style = audioStyles.some((item) => item.id === params.style) ? params.style : 'minimal';
   const accent = getAccent(params.accent);
   const audioRef = useRef(null);
@@ -704,7 +717,8 @@ function AudioWidget({ params, embed, preview, fill }) {
   return (
     <WidgetFrame
       mode={mode}
-      transparent={transparent}
+      customBackground={customBackground}
+      backgroundColor={backgroundColor}
       accentId={params.accent}
       embed={embed}
       preview={preview}
@@ -737,7 +751,7 @@ function getClockParts(now, hour12) {
 
 function ClockWidget({ params, embed, preview, fill }) {
   const [now, setNow] = useState(new Date());
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const style = clockStyles.some((item) => item.id === params.style) ? params.style : 'digital';
   const hour12 = toBoolean(params.hour12, false);
   const showSeconds = toBoolean(params.seconds, true);
@@ -886,14 +900,14 @@ function ClockWidget({ params, embed, preview, fill }) {
   }
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       {content}
     </WidgetFrame>
   );
 }
 
 function PomodoroWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
   const focusSeconds = clampNumber(params.minutes, 1, 180, 25) * 60;
   const breakSeconds = clampNumber(params.breakMinutes, 1, 60, 5) * 60;
@@ -935,7 +949,7 @@ function PomodoroWidget({ params, embed, preview, fill }) {
   const phaseLabel = phase === 'focus' ? cleanText(params.focusLabel) : cleanText(params.breakLabel);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <Muted mode={mode} className="text-sm font-medium">
@@ -994,7 +1008,7 @@ function getCountdownParts(ms, selectedUnits) {
 
 function CountdownWidget({ params, embed, preview, fill }) {
   const [now, setNow] = useState(Date.now());
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const targetTime = new Date(params.target || '2026-12-31T23:59').getTime();
   const selectedUnits = useMemo(() => {
     const parsedUnits = csv(params.units);
@@ -1012,7 +1026,7 @@ function CountdownWidget({ params, embed, preview, fill }) {
   const flipVars = getFlipCardVars(fill || embed ? flipScale + 0.06 : flipScale);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       <div className="pattern-static-flip flex w-full flex-col items-center text-center" style={flipVars}>
         {hasText(params.title) ? <h3 className={`text-2xl font-semibold ${tokens.text}`}>{params.title}</h3> : null}
         <div
@@ -1039,7 +1053,7 @@ function CountdownWidget({ params, embed, preview, fill }) {
 }
 
 function ProgressWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
   const [value, setValue] = useState(clampNumber(params.value, 0, 100, 68));
 
@@ -1048,7 +1062,7 @@ function ProgressWidget({ params, embed, preview, fill }) {
   }, [params.value]);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       <div className="flex items-end justify-between gap-4 text-center">
         {hasText(params.title) ? <h3 className={`text-2xl font-semibold ${tokens.text}`}>{params.title}</h3> : <span />}
         <p className={`text-4xl font-semibold ${tokens.text}`}>{value}%</p>
@@ -1061,7 +1075,7 @@ function ProgressWidget({ params, embed, preview, fill }) {
 }
 
 function DayProgressWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
   const total = clampNumber(params.days, 1, 60, 7);
   const [checked, setChecked] = useState(() => new Set());
@@ -1081,7 +1095,7 @@ function DayProgressWidget({ params, embed, preview, fill }) {
   };
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       <div className="flex items-end justify-between gap-4">
         {hasText(params.title) ? <h3 className={`text-2xl font-semibold ${tokens.text}`}>{params.title}</h3> : <span />}
         <Muted mode={mode} className="font-medium">
@@ -1118,7 +1132,7 @@ function DayProgressWidget({ params, embed, preview, fill }) {
 }
 
 function HabitTrackerWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
   const count = clampNumber(params.habitCount, 2, 10, 4);
   const habits = Array.from({ length: count })
@@ -1142,7 +1156,7 @@ function HabitTrackerWidget({ params, embed, preview, fill }) {
   };
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       {(hasText(params.title) || habits.length > 0) && (
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
@@ -1180,11 +1194,11 @@ function HabitTrackerWidget({ params, embed, preview, fill }) {
 }
 
 function FocusCardWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       <div className="flex w-full items-start gap-4 text-left">
         <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ background: accent.color, color: tokens.onPrimary }}>
           <Sparkles size={18} />
@@ -1202,11 +1216,11 @@ function FocusCardWidget({ params, embed, preview, fill }) {
 }
 
 function QuoteWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       {hasText(params.quote) ? <Quote size={28} style={{ color: accent.color }} /> : null}
       {hasText(params.quote) ? <blockquote className={`mt-5 text-2xl font-semibold leading-tight ${tokens.text}`}>{params.quote}</blockquote> : null}
       <Muted mode={mode} className="mt-5 block text-sm font-medium">
@@ -1217,11 +1231,11 @@ function QuoteWidget({ params, embed, preview, fill }) {
 }
 
 function GreetingWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       <Muted mode={mode} className="text-sm font-medium">
         {params.greeting}
       </Muted>
@@ -1246,13 +1260,13 @@ function getLinks(params) {
 }
 
 function QuickLinksWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
   const links = getLinks(params);
   const columns = links.length > 5 ? 2 : 1;
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       {(hasText(params.title) || links.length > 0) && (
         <div className="flex items-center justify-start gap-3">
           <Link2 size={20} style={{ color: accent.color }} />
@@ -1300,11 +1314,11 @@ function QuickLinksWidget({ params, embed, preview, fill }) {
 }
 
 function NotesWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       {hasText(params.title) ? (
         <div className="flex items-center gap-3">
           <span className="h-3 w-3 rounded-full" style={{ background: accent.color }} />
@@ -1317,7 +1331,7 @@ function NotesWidget({ params, embed, preview, fill }) {
 }
 
 function CounterWidget({ params, embed, preview, fill }) {
-  const { mode, transparent, tokens } = getWidgetAppearance(params);
+  const { mode, customBackground, backgroundColor, tokens } = getWidgetAppearance(params);
   const accent = getAccent(params.accent);
   const [count, setCount] = useState(clampNumber(params.count, 0, 99999, 12));
 
@@ -1326,7 +1340,7 @@ function CounterWidget({ params, embed, preview, fill }) {
   }, [params.count]);
 
   return (
-    <WidgetFrame mode={mode} transparent={transparent} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
+    <WidgetFrame mode={mode} customBackground={customBackground} backgroundColor={backgroundColor} accentId={params.accent} embed={embed} preview={preview} fill={fill}>
       <Muted mode={mode} className="text-sm font-medium">
         {params.title}
       </Muted>

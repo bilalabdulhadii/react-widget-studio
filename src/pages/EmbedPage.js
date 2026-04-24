@@ -7,6 +7,11 @@ import {
 } from "../data/widgets";
 import { normalizeParams, paramsToObject } from "../utils/query";
 import WidgetRenderer from "../widgets/WidgetRenderer";
+import {
+    getWidgetPageBackground,
+    resolveWidgetTheme,
+    toWidgetBoolean,
+} from "../widgets/widgetTheme";
 
 export default function EmbedPage() {
     const { slug } = useParams();
@@ -45,6 +50,52 @@ export default function EmbedPage() {
         () => (widget ? paramsToObject(searchParams, widget.slug) : {}),
         [searchParams, widget],
     );
+    const embedAppearance = resolveWidgetTheme(params.mode, "light");
+    const pageBackground = getWidgetPageBackground(params.mode, {
+        customBackground: params.customBackground,
+        backgroundColor: params.backgroundColor,
+    });
+
+    useEffect(() => {
+        if (!widget) {
+            return;
+        }
+
+        document.documentElement.classList.add(`embed-${embedAppearance}`);
+        document.body.classList.add(`embed-${embedAppearance}`);
+        const root = document.getElementById("root");
+        root?.classList.add(`embed-${embedAppearance}`);
+
+        if (toWidgetBoolean(params.customBackground, false)) {
+            document.documentElement.classList.add("embed-custom-background");
+            document.body.classList.add("embed-custom-background");
+            root?.classList.add("embed-custom-background");
+        }
+
+        [document.documentElement, document.body, root]
+            .filter(Boolean)
+            .forEach((node) => {
+                node.style.background = pageBackground;
+                node.style.backgroundColor = pageBackground;
+                node.style.backgroundImage = "none";
+            });
+
+        return () => {
+            document.documentElement.classList.remove(`embed-${embedAppearance}`);
+            document.body.classList.remove(`embed-${embedAppearance}`);
+            root?.classList.remove(`embed-${embedAppearance}`);
+            document.documentElement.classList.remove("embed-custom-background");
+            document.body.classList.remove("embed-custom-background");
+            root?.classList.remove("embed-custom-background");
+            [document.documentElement, document.body, root]
+                .filter(Boolean)
+                .forEach((node) => {
+                    node.style.removeProperty("background");
+                    node.style.removeProperty("background-color");
+                    node.style.removeProperty("background-image");
+                });
+        };
+    }, [embedAppearance, pageBackground, params.customBackground, widget]);
 
     if (!widget && legacyWidget) {
         return (
@@ -60,7 +111,13 @@ export default function EmbedPage() {
     }
 
     return (
-        <main className="flex min-h-screen w-full items-center justify-center bg-transparent p-0">
+        <main
+            className="embed-page-root flex min-h-screen w-full items-center justify-center p-0"
+            style={{
+                background: pageBackground,
+                backgroundColor: pageBackground,
+                backgroundImage: "none",
+            }}>
             <WidgetRenderer type={widget.type} params={params} embed />
         </main>
     );

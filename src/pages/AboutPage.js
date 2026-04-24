@@ -53,7 +53,7 @@ const philosophy = [
     },
     {
         icon: MoonStar,
-        title: "Light / dark / transparent support",
+        title: "Light / dark / custom background support",
     },
     {
         icon: Link2,

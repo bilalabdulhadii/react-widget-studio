@@ -55,12 +55,12 @@ body {
         radial-gradient(
             circle at 14% 10%,
             var(--app-body-accent),
-            transparent 34%
+            transparent 40%
         ),
         radial-gradient(
             circle at 88% 0%,
-            color-mix(in srgb, var(--app-primary) 5%, transparent),
-            transparent 30%
+            color-mix(in srgb, var(--app-primary) 3%, transparent),
+            transparent 36%
         ),
         var(--app-body);
     color: var(--app-text);
@@ -76,17 +76,40 @@ body {
 }
 
 html.embed-route,
-body.embed-route,
-#root.embed-route {
-    background: transparent !important;
-}
-
+html.embed-route body,
+html.embed-route #root,
 body.embed-route,
 #root.embed-route {
     min-height: 100vh;
 }
 
-body.embed-route {
+html.embed-route body,
+body.embed-route,
+#root.embed-route {
+    background-image: none !important;
+}
+
+html.embed-light,
+html.embed-light body,
+html.embed-light #root,
+body.embed-light,
+#root.embed-light {
+    background: #f7f7f5 !important;
+    background-color: #f7f7f5 !important;
+}
+
+html.embed-dark,
+html.embed-dark body,
+html.embed-dark #root,
+body.embed-dark,
+#root.embed-dark {
+    background: #191919 !important;
+    background-color: #191919 !important;
+}
+
+.embed-route .embed-page-root,
+.embed-route .embed-page-shell,
+.embed-route .embed-widget-shell {
     background-image: none !important;
 }
 

@@ -1165,7 +1165,8 @@ export default function WidgetPreview({ widget }) {
     const accent = getAccent(widget.defaults?.accent);
     const themeVars = getWidgetThemeVars(previewMode, {
         appTheme: appliedTheme,
-        transparent: false,
+        customBackground: false,
+        backgroundColor: "#F7F7F5",
     });
     const config = getPreviewConfig(widget);
     const PreviewComponent =

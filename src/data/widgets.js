@@ -33,6 +33,11 @@ export const accentOptions = [
 ];
 
 const commonModes = ["light", "dark"];
+const defaultBackgroundSettings = {
+    mode: "light",
+    customBackground: "false",
+    backgroundColor: "#F7F7F5",
+};
 
 const widgetTypeConfigs = {
     audio: {
@@ -43,9 +48,8 @@ const widgetTypeConfigs = {
         icon: AudioLines,
         supportsModes: commonModes,
         defaults: {
+            ...defaultBackgroundSettings,
             style: "minimal",
-            mode: "light",
-            transparent: "false",
             title: "Quiet Mode",
             artist: "Widget Studio",
             url: "",
@@ -64,9 +68,8 @@ const widgetTypeConfigs = {
         icon: Clock,
         supportsModes: commonModes,
         defaults: {
+            ...defaultBackgroundSettings,
             style: "digital",
-            mode: "light",
-            transparent: "false",
             label: "Keep going",
             hour12: "false",
             seconds: "true",
@@ -82,8 +85,7 @@ const widgetTypeConfigs = {
         icon: Timer,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Deep Focus Session",
             minutes: "25",
             breakMinutes: "5",
@@ -100,8 +102,7 @@ const widgetTypeConfigs = {
         icon: Timer,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Upcoming Milestone",
             target: "2026-12-31T23:59",
             units: "months,weeks,days,hours,minutes",
@@ -116,8 +117,7 @@ const widgetTypeConfigs = {
         icon: Gauge,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Project Progress",
             value: "68",
             accent: "emerald",
@@ -131,8 +131,7 @@ const widgetTypeConfigs = {
         icon: Gauge,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Weekly Rhythm",
             days: "7",
             dayLabel: "Day",
@@ -147,8 +146,7 @@ const widgetTypeConfigs = {
         icon: BadgeCheck,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Daily Habits",
             habitCount: "4",
             habit1: "Read",
@@ -166,8 +164,7 @@ const widgetTypeConfigs = {
         icon: Focus,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Ship the next milestone",
             subtitle:
                 "Keep the most important task visible and finish it first.",
@@ -183,8 +180,7 @@ const widgetTypeConfigs = {
         icon: Quote,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             quote: "Clarity turns effort into momentum.",
             author: "— Widget Studio",
             accent: "neutral",
@@ -198,8 +194,7 @@ const widgetTypeConfigs = {
         icon: Quote,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             greeting: "Good day",
             name: "Emma",
             message: "Ready to build something clean today?",
@@ -214,8 +209,7 @@ const widgetTypeConfigs = {
         icon: Link2,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Quick Links",
             linkCount: "2",
             link1Label: "Portfolio",
@@ -233,8 +227,7 @@ const widgetTypeConfigs = {
         icon: StickyNote,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Pinned Note",
             body: "Keep your next step visible.",
             accent: "amber",
@@ -248,8 +241,7 @@ const widgetTypeConfigs = {
         icon: Wrench,
         supportsModes: commonModes,
         defaults: {
-            mode: "light",
-            transparent: "false",
+            ...defaultBackgroundSettings,
             title: "Consistency Streak",
             count: "12",
             suffix: "days",

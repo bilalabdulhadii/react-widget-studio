@@ -1,5 +1,6 @@
 import { createEmbedPath, getWidgetBySlug } from "../data/widgets";
 import { buildAbsoluteUrl } from "./siteUrl";
+import { sanitizeWidgetBackgroundColor } from "../widgets/widgetTheme";
 
 function getWidgetDefaults(slug, defaultOverrides = {}) {
     const widget = getWidgetBySlug(slug);
@@ -18,7 +19,11 @@ export function paramsToObject(searchParams, slug, defaultOverrides = {}) {
     searchParams.forEach((value, key) => {
         if (key === "appearance") {
             params.mode = value;
-        } else if (key !== "mode") {
+        } else if (key === "mode") {
+            return;
+        } else if (key === "transparent" || key === "transparentBackground") {
+            return;
+        } else {
             params[key] = value;
         }
     });
@@ -42,8 +47,26 @@ export function normalizeParams(searchParams, slug, defaultOverrides = {}) {
         changed = true;
     }
 
+    if (nextParams.has("transparent")) {
+        nextParams.delete("transparent");
+        changed = true;
+    }
+
+    if (nextParams.has("transparentBackground")) {
+        nextParams.delete("transparentBackground");
+        changed = true;
+    }
+
     Object.entries(getWidgetDefaults(slug, defaultOverrides)).forEach(
         ([key, value]) => {
+            if (
+                key === "backgroundColor" &&
+                nextParams.get("customBackground") !== "true"
+            ) {
+                nextParams.delete("backgroundColor");
+                return;
+            }
+
             const paramKey = key === "mode" ? "appearance" : key;
             if (!nextParams.has(paramKey)) {
                 nextParams.set(paramKey, value);
@@ -57,12 +80,28 @@ export function normalizeParams(searchParams, slug, defaultOverrides = {}) {
 
 export function toEmbedSearchParams(params) {
     const nextParams = new URLSearchParams();
+    const customBackgroundEnabled = toBoolean(params?.customBackground, false);
 
     Object.entries(params || {}).forEach(([key, value]) => {
         if (value === undefined || value === null || value === "") {
             if (key === "title" || key === "artist") {
                 nextParams.set(key, "");
             }
+            return;
+        }
+
+        if (key === "backgroundColor") {
+            if (!customBackgroundEnabled) {
+                return;
+            }
+
+            const sanitizedValue = sanitizeWidgetBackgroundColor(value);
+
+            if (!sanitizedValue) {
+                return;
+            }
+
+            nextParams.set(key, sanitizedValue);
             return;
         }
 

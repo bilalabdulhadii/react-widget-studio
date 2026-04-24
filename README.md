@@ -134,14 +134,14 @@ Widget Studio uses a simple split between builder routes and embed routes:
 ### Embed route
 
 ```text
-/embed/flip-clock?appearance=dark&transparent=false&seconds=true
+/embed/flip-clock?appearance=dark&customBackground=false&seconds=true
 ```
 
 ### Iframe example
 
 ```html
 <iframe
-    src="https://your-domain.com/embed/flip-clock?appearance=dark&transparent=false&seconds=true"
+    src="https://your-domain.com/embed/flip-clock?appearance=dark&customBackground=false&seconds=true"
     title="Flip Clock"
     style="width:100%;height:360px;border:0;border-radius:24px;overflow:hidden;"
     loading="lazy"></iframe>
@@ -169,9 +169,9 @@ Widget Studio uses a shared theme system across the app and widgets.
 
 - **Light**
 - **Dark**
-- **Transparent background toggle**
+- **Optional custom background color**
 
-Transparent mode removes the outer widget scene only. The widget card itself stays visible and styled.
+Custom background changes only the outer page/background color. The widget card itself stays on the selected light or dark appearance.
 
 The widget renderer uses centralized token layers instead of ad hoc per-widget base colors:
 

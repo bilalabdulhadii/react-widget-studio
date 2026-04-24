@@ -55,13 +55,13 @@ export function getAppThemeVars(mode, fallback = "light") {
             : "color-mix(in srgb, var(--app-surface) 98%, var(--app-primary) 2%)",
         "--app-body": isDark
             ? "color-mix(in srgb, var(--app-surface) 96%, var(--app-primary) 4%)"
-            : "color-mix(in srgb, var(--app-surface) 97%, var(--app-primary) 3%)",
+            : "#FAFAF8",
         "--app-body-accent": isDark
             ? "color-mix(in srgb, var(--app-primary) 7%, transparent)"
-            : "color-mix(in srgb, var(--app-primary) 6%, transparent)",
+            : "color-mix(in srgb, var(--app-primary) 3%, transparent)",
         "--app-overlay": isDark
             ? "rgba(34, 34, 34, 0.82)"
-            : "rgba(255, 255, 255, 0.86)",
+            : "rgba(255, 255, 255, 0.92)",
         "--app-inverse": isDark ? "#222222" : "#FFFFFF",
         "--app-shadow": isDark
             ? "0 16px 36px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.1)"

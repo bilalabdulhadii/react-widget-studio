@@ -2,6 +2,69 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <script>
+            (function () {
+                var isEmbedRoute =
+                    window.location.pathname.indexOf("/embed/") === 0;
+                var searchParams = new URLSearchParams(window.location.search);
+                var appearance = searchParams.get("appearance") ||
+                    searchParams.get("mode") ||
+                    "light";
+                var customBackground =
+                    isEmbedRoute &&
+                    searchParams.get("customBackground") === "true";
+                var rawBackgroundColor =
+                    searchParams.get("backgroundColor") || "";
+                var sanitizedBackgroundColor =
+                    /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(
+                        rawBackgroundColor,
+                    )
+                        ? rawBackgroundColor
+                        : "";
+                var resolvedAppearance =
+                    appearance === "dark" ? "dark" : "light";
+                var pageBackground =
+                    customBackground && sanitizedBackgroundColor
+                        ? sanitizedBackgroundColor
+                        : resolvedAppearance === "dark"
+                          ? "#191919"
+                          : "#F7F7F5";
+
+                window.__WIDGET_STUDIO_EMBED__ = {
+                    isEmbedRoute: isEmbedRoute,
+                    appearance: resolvedAppearance,
+                    customBackground: customBackground,
+                    pageBackground: pageBackground,
+                };
+
+                if (isEmbedRoute) {
+                    document.documentElement.classList.add("embed-route");
+                    document.documentElement.classList.add(
+                        "embed-" + resolvedAppearance,
+                    );
+                    if (customBackground) {
+                        document.documentElement.classList.add(
+                            "embed-custom-background",
+                        );
+                    }
+                    document.documentElement.style.background = pageBackground;
+                    document.documentElement.style.backgroundColor =
+                        pageBackground;
+                    document.documentElement.style.backgroundImage = "none";
+                }
+
+                if (isEmbedRoute) {
+                    var embedStyle = document.createElement("style");
+                    embedStyle.textContent =
+                        "html.embed-route,html.embed-route body,html.embed-route #root,body.embed-route,#root.embed-route{background:" +
+                        pageBackground +
+                        "!important;background-color:" +
+                        pageBackground +
+                        "!important;background-image:none!important;min-height:100vh;}html.embed-route body,body.embed-route,#root.embed-route{background-image:none!important;}html.embed-route .embed-page-root,html.embed-route .embed-page-shell,html.embed-route .embed-widget-shell{background-image:none!important;}";
+                    document.head.appendChild(embedStyle);
+                }
+            })();
+        </script>
         <link rel="icon" type="image/png" href="%PUBLIC_URL%/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#111113" />
@@ -46,7 +109,47 @@
         </title>
     </head>
     <body>
+        <script>
+            (function () {
+                var state = window.__WIDGET_STUDIO_EMBED__;
+                if (!state) return;
+                if (state.isEmbedRoute) {
+                    document.body.classList.add("embed-route");
+                    document.body.classList.add(
+                        "embed-" + state.appearance,
+                    );
+                    if (state.customBackground) {
+                        document.body.classList.add(
+                            "embed-custom-background",
+                        );
+                    }
+                    document.body.style.background = state.pageBackground;
+                    document.body.style.backgroundColor =
+                        state.pageBackground;
+                    document.body.style.backgroundImage = "none";
+                }
+            })();
+        </script>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
+        <script>
+            (function () {
+                var state = window.__WIDGET_STUDIO_EMBED__;
+                var root = document.getElementById("root");
+                if (!state || !root) return;
+                if (state.isEmbedRoute) {
+                    root.classList.add("embed-route");
+                    root.classList.add(
+                        "embed-" + state.appearance,
+                    );
+                    if (state.customBackground) {
+                        root.classList.add("embed-custom-background");
+                    }
+                    root.style.background = state.pageBackground;
+                    root.style.backgroundColor = state.pageBackground;
+                    root.style.backgroundImage = "none";
+                }
+            })();
+        </script>
     </body>
 </html>

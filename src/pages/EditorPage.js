@@ -28,7 +28,10 @@ import {
     toEmbedSearchParams,
 } from "../utils/query";
 import WidgetRenderer, { unitDefs } from "../widgets/WidgetRenderer";
-import { getOppositeWidgetMode } from "../widgets/widgetTheme";
+import {
+    getOppositeWidgetMode,
+    sanitizeWidgetBackgroundColor,
+} from "../widgets/widgetTheme";
 
 function Field({ label, helper, children }) {
     return (
@@ -67,6 +70,35 @@ function TextArea({ value, onChange, placeholder, rows = 4 }) {
             rows={rows}
             className="control-input resize-none"
         />
+    );
+}
+
+function ColorInput({ value, onChange }) {
+    const normalizedValue =
+        sanitizeWidgetBackgroundColor(value) || "#F7F7F5";
+
+    return (
+        <div
+            className="flex items-center gap-3 rounded-2xl border px-3 py-2"
+            style={{
+                borderColor: "var(--app-border)",
+                background: "var(--app-panel-soft)",
+            }}>
+            <input
+                type="color"
+                value={normalizedValue}
+                onChange={(event) => onChange(event.target.value)}
+                className="h-9 w-11 cursor-pointer rounded-xl border-0 bg-transparent p-0"
+            />
+            <input
+                type="text"
+                value={value || normalizedValue}
+                onChange={(event) => onChange(event.target.value)}
+                placeholder="#F7F7F5"
+                className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                style={{ color: "var(--app-primary)" }}
+            />
+        </div>
     );
 }
 
@@ -862,18 +894,31 @@ export default function EditorPage() {
                         </div>
                         <div className="space-y-5 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:pr-1">
                             <SegmentedControl
-                                label="Mode"
+                                label="Appearance"
                                 options={modeOptions}
                                 value={displayedMode}
                                 onChange={(value) => update("mode", value)}
                             />
                             <Toggle
-                                checked={toBoolean(params.transparent, false)}
+                                checked={toBoolean(
+                                    params.customBackground,
+                                    false,
+                                )}
                                 onChange={(value) =>
-                                    update("transparent", String(value))
+                                    update("customBackground", String(value))
                                 }
-                                label="Transparent background"
+                                label="Custom background"
                             />
+                            {toBoolean(params.customBackground, false) ? (
+                                <Field label="Background color">
+                                    <ColorInput
+                                        value={params.backgroundColor}
+                                        onChange={(value) =>
+                                            update("backgroundColor", value)
+                                        }
+                                    />
+                                </Field>
+                            ) : null}
                             {showAccentPicker ? (
                                 <AccentPicker
                                     value={params.accent || "sky"}
