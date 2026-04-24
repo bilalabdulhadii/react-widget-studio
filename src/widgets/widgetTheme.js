@@ -108,18 +108,18 @@ export function getWidgetThemeVars(mode, { appTheme = 'light', customBackground 
       : '#ECECE8',
     '--widget-text': palette.text,
     '--widget-accent-text': isDark ? '#222222' : '#FFFFFF',
-    '--widget-muted': isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(25, 25, 25, 0.62)',
+    '--widget-muted': isDark ? 'rgba(255, 255, 255, 0.7)' : '#787774',
     '--widget-subtle': isDark ? 'rgba(255, 255, 255, 0.9)' : 'rgba(25, 25, 25, 0.84)',
-    '--widget-border': isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(34, 34, 34, 0.08)',
-    '--widget-border-strong': isDark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(34, 34, 34, 0.12)',
+    '--widget-border': isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)',
+    '--widget-border-strong': isDark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(0, 0, 0, 0.08)',
     '--widget-track': isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(34, 34, 34, 0.11)',
     '--widget-on-primary': isDark ? '#222222' : '#FFFFFF',
     '--widget-shadow': isDark
       ? '0 16px 32px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.12)'
-      : '0 16px 32px rgba(34, 34, 34, 0.08), 0 2px 8px rgba(34, 34, 34, 0.04)',
+      : '0 8px 20px rgba(0, 0, 0, 0.06)',
     '--widget-inner-shadow': isDark
       ? '0 10px 22px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.08)'
-      : '0 10px 22px rgba(34, 34, 34, 0.06), 0 2px 6px rgba(34, 34, 34, 0.03)',
+      : '0 4px 12px rgba(0, 0, 0, 0.04)',
   };
 }
 

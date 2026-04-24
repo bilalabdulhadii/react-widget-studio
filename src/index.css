@@ -7,10 +7,10 @@
     --app-primary: #222222;
     --app-surface: #ffffff;
     --app-text: #191919;
-    --app-muted: rgba(25, 25, 25, 0.68);
-    --app-subtle: rgba(25, 25, 25, 0.84);
-    --app-border: rgba(34, 34, 34, 0.12);
-    --app-border-strong: rgba(34, 34, 34, 0.18);
+    --app-muted: #787774;
+    --app-subtle: #5f5e5b;
+    --app-border: rgba(0, 0, 0, 0.06);
+    --app-border-strong: rgba(0, 0, 0, 0.08);
     --app-panel: color-mix(
         in srgb,
         var(--app-surface) 96%,
@@ -26,16 +26,11 @@
         var(--app-surface) 98%,
         var(--app-primary) 2%
     );
-    --app-body: color-mix(
-        in srgb,
-        var(--app-surface) 97%,
-        var(--app-primary) 3%
-    );
-    --app-body-accent: color-mix(in srgb, var(--app-primary) 6%, transparent);
-    --app-overlay: rgba(255, 255, 255, 0.86);
+    --app-body: #f7f7f5;
+    --app-body-accent: color-mix(in srgb, var(--app-primary) 2%, transparent);
+    --app-overlay: rgba(255, 255, 255, 0.95);
     --app-inverse: #ffffff;
-    --app-shadow:
-        0 16px 36px rgba(34, 34, 34, 0.08), 0 2px 8px rgba(34, 34, 34, 0.05);
+    --app-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     --app-selection: rgba(34, 34, 34, 0.14);
 }
 
@@ -229,8 +224,8 @@ button {
         border: 1px solid var(--app-border);
         background: linear-gradient(
             180deg,
-            color-mix(in srgb, var(--app-surface) 94%, var(--app-primary) 6%),
-            color-mix(in srgb, var(--app-surface) 90%, var(--app-primary) 10%)
+            color-mix(in srgb, var(--app-body) 94%, var(--app-surface) 6%),
+            color-mix(in srgb, var(--app-body) 98%, var(--app-surface) 2%)
         );
     }
 
@@ -241,24 +236,24 @@ button {
         background:
             linear-gradient(
                 90deg,
-                color-mix(in srgb, var(--app-primary) 4%, transparent) 1px,
+                color-mix(in srgb, var(--app-primary) 3%, transparent) 1px,
                 transparent 1px
             ),
             linear-gradient(
-                color-mix(in srgb, var(--app-primary) 4%, transparent) 1px,
+                color-mix(in srgb, var(--app-primary) 3%, transparent) 1px,
                 transparent 1px
             ),
             linear-gradient(
                 135deg,
-                color-mix(in srgb, var(--app-surface) 18%, transparent),
+                color-mix(in srgb, var(--app-surface) 12%, transparent),
                 transparent 40%,
-                color-mix(in srgb, var(--app-primary) 5%, transparent)
+                color-mix(in srgb, var(--app-primary) 3%, transparent)
             );
         background-size:
             28px 28px,
             28px 28px,
             100% 100%;
-        opacity: 0.75;
+        opacity: 0.56;
         pointer-events: none;
     }
 

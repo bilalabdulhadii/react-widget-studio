@@ -34,16 +34,16 @@ export function getAppThemeVars(mode, fallback = "light") {
         "--app-text": palette.text,
         "--app-muted": isDark
             ? "rgba(255, 255, 255, 0.72)"
-            : "rgba(25, 25, 25, 0.68)",
+            : "#787774",
         "--app-subtle": isDark
             ? "rgba(255, 255, 255, 0.88)"
-            : "rgba(25, 25, 25, 0.84)",
+            : "#5f5e5b",
         "--app-border": isDark
             ? "rgba(255, 255, 255, 0.12)"
-            : "rgba(34, 34, 34, 0.12)",
+            : "rgba(0, 0, 0, 0.06)",
         "--app-border-strong": isDark
             ? "rgba(255, 255, 255, 0.2)"
-            : "rgba(34, 34, 34, 0.18)",
+            : "rgba(0, 0, 0, 0.08)",
         "--app-panel": isDark
             ? "color-mix(in srgb, var(--app-surface) 92%, var(--app-primary) 8%)"
             : "color-mix(in srgb, var(--app-surface) 96%, var(--app-primary) 4%)",
@@ -55,17 +55,17 @@ export function getAppThemeVars(mode, fallback = "light") {
             : "color-mix(in srgb, var(--app-surface) 98%, var(--app-primary) 2%)",
         "--app-body": isDark
             ? "color-mix(in srgb, var(--app-surface) 96%, var(--app-primary) 4%)"
-            : "#FAFAF8",
+            : "#F7F7F5",
         "--app-body-accent": isDark
             ? "color-mix(in srgb, var(--app-primary) 7%, transparent)"
-            : "color-mix(in srgb, var(--app-primary) 3%, transparent)",
+            : "color-mix(in srgb, var(--app-primary) 2%, transparent)",
         "--app-overlay": isDark
             ? "rgba(34, 34, 34, 0.82)"
-            : "rgba(255, 255, 255, 0.92)",
+            : "rgba(255, 255, 255, 0.95)",
         "--app-inverse": isDark ? "#222222" : "#FFFFFF",
         "--app-shadow": isDark
             ? "0 16px 36px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.1)"
-            : "0 16px 36px rgba(34, 34, 34, 0.08), 0 2px 8px rgba(34, 34, 34, 0.05)",
+            : "0 8px 20px rgba(0, 0, 0, 0.06)",
         "--app-selection": isDark
             ? "rgba(255, 255, 255, 0.18)"
             : "rgba(34, 34, 34, 0.14)",
