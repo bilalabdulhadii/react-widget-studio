@@ -106,7 +106,7 @@ function WidgetFrame({
     return (
         <div
             className={[
-                "embed-widget-shell relative mx-auto flex h-full w-full flex-col justify-center overflow-hidden transition-all duration-500 p-[30px]",
+                "embed-widget-shell relative mx-auto flex h-full w-full flex-col justify-center overflow-hidden transition-all duration-500",
                 embed
                     ? "min-h-screen"
                     : fill
