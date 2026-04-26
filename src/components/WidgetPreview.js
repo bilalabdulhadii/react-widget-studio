@@ -58,15 +58,10 @@ function PreviewCard({ children, className = "", style }) {
     return (
         <div
             className={cx(
-                "w-full overflow-hidden rounded-[1.35rem] border",
+                "w-full overflow-hidden rounded-[1.35rem]",
                 className,
             )}
-            style={{
-                background: "var(--widget-surface)",
-                borderColor: "var(--widget-border)",
-                boxShadow: "var(--widget-shadow)",
-                ...style,
-            }}>
+            style={style}>
             {children}
         </div>
     );
@@ -456,41 +451,9 @@ function CardPlayerPreview({ themeVars, accent }) {
     );
 }
 
-function DigitalClockPreview({ themeVars, accent }) {
-    return (
-        <PreviewScene
-            themeVars={themeVars}
-            accent={accent}
-            className="px-6 py-6">
-            <PreviewCard className="max-w-[362px] px-5 py-5">
-                <div
-                    className="text-center text-xs font-semibold uppercase tracking-[0.16em]"
-                    style={{ color: "var(--widget-muted)" }}>
-                    Keep going
-                </div>
-                <div
-                    className="mt-4 text-center font-semibold tabular-nums tracking-[0.08em]"
-                    style={{
-                        color: "var(--widget-text)",
-                        fontSize: "2.25rem",
-                    }}>
-                    08:24:45
-                </div>
-                <div className="mt-4 flex justify-center gap-2">
-                    {["Hours", "Minutes", "Seconds"].map((label) => (
-                        <PreviewPill
-                            key={label}
-                            className="text-[10px] font-semibold uppercase tracking-[0.16em]">
-                            {label}
-                        </PreviewPill>
-                    ))}
-                </div>
-            </PreviewCard>
-        </PreviewScene>
-    );
-}
+function FlipClockPreview({ themeVars, accent, widget }) {
+    const showUnitLabels = widget?.defaults?.showUnitLabels !== "false";
 
-function FlipClockPreview({ themeVars, accent }) {
     return (
         <PreviewScene
             themeVars={themeVars}
@@ -503,11 +466,20 @@ function FlipClockPreview({ themeVars, accent }) {
                     Keep going
                 </div>
                 <div className="mt-4 flex items-end justify-center">
-                    <FlipCell value="08" label="Hours" />
+                    <FlipCell
+                        value="08"
+                        label={showUnitLabels ? "Hours" : null}
+                    />
                     <ColonSeparator />
-                    <FlipCell value="24" label="Minutes" />
+                    <FlipCell
+                        value="24"
+                        label={showUnitLabels ? "Minutes" : null}
+                    />
                     <ColonSeparator />
-                    <FlipCell value="45" label="Seconds" />
+                    <FlipCell
+                        value="45"
+                        label={showUnitLabels ? "Seconds" : null}
+                    />
                 </div>
             </PreviewCard>
         </PreviewScene>
@@ -570,7 +542,9 @@ function CircularClockPreview({ themeVars, accent }) {
     );
 }
 
-function SplitClockPreview({ themeVars, accent }) {
+function DigitalClockPreview({ themeVars, accent, widget }) {
+    const showUnitLabels = widget?.defaults?.showUnitLabels !== "false";
+
     return (
         <PreviewScene
             themeVars={themeVars}
@@ -596,11 +570,13 @@ function SplitClockPreview({ themeVars, accent }) {
                                 style={{ color: "var(--widget-text)" }}>
                                 {value}
                             </div>
-                            <div
-                                className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em]"
-                                style={{ color: "var(--widget-muted)" }}>
-                                {label}
-                            </div>
+                            {showUnitLabels ? (
+                                <div
+                                    className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em]"
+                                    style={{ color: "var(--widget-muted)" }}>
+                                    {label}
+                                </div>
+                            ) : null}
                         </PreviewInner>
                     ))}
                 </div>
@@ -742,10 +718,27 @@ function EventPreview({ themeVars, accent }) {
                     Upcoming Milestone
                 </div>
                 <div className="mt-4 flex items-end justify-center gap-3">
-                    <FlipCell value="02" label="Months" />
-                    <FlipCell value="09" label="Weeks" />
-                    <FlipCell value="04" label="Days" />
-                    <FlipCell value="12" label="Hours" />
+                    {[
+                        ["02", "Months"],
+                        ["09", "Weeks"],
+                        ["04", "Days"],
+                        ["12", "Hours"],
+                    ].map(([value, label]) => (
+                        <PreviewInner
+                            key={label}
+                            className="flex h-[82px] w-[72px] flex-col items-center justify-center">
+                            <div
+                                className="font-mono text-[1.85rem] font-semibold tabular-nums"
+                                style={{ color: "var(--widget-text)" }}>
+                                {value}
+                            </div>
+                            <div
+                                className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em]"
+                                style={{ color: "var(--widget-muted)" }}>
+                                {label}
+                            </div>
+                        </PreviewInner>
+                    ))}
                 </div>
             </PreviewCard>
         </PreviewScene>
@@ -1001,21 +994,23 @@ function QuickLinksPreview({ themeVars, accent }) {
                     </span>
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-2.5">
-                    {["Portfolio", "Workspace", "Portfolio", "Workspace"].map((label, index) => (
-                        <PreviewInner
-                            key={`${label}-${index}`}
-                            className="flex items-center justify-between gap-2 px-3 py-2.5">
-                            <span
-                                className="truncate text-xs font-semibold"
-                                style={{ color: "var(--widget-text)" }}>
-                                {label}
-                            </span>
-                            <ExternalLink
-                                size={12}
-                                style={{ color: "var(--widget-muted)" }}
-                            />
-                        </PreviewInner>
-                    ))}
+                    {["Portfolio", "Workspace", "Portfolio", "Workspace"].map(
+                        (label, index) => (
+                            <PreviewInner
+                                key={`${label}-${index}`}
+                                className="flex items-center justify-between gap-2 px-3 py-2.5">
+                                <span
+                                    className="truncate text-xs font-semibold"
+                                    style={{ color: "var(--widget-text)" }}>
+                                    {label}
+                                </span>
+                                <ExternalLink
+                                    size={12}
+                                    style={{ color: "var(--widget-muted)" }}
+                                />
+                            </PreviewInner>
+                        ),
+                    )}
                 </div>
             </PreviewCard>
         </PreviewScene>
@@ -1129,7 +1124,6 @@ const previewComponents = {
     "clock-digital": DigitalClockPreview,
     "clock-flip": FlipClockPreview,
     "clock-circular": CircularClockPreview,
-    "clock-split": SplitClockPreview,
     "clock-analog": AnalogClockPreview,
     pomodoro: PomodoroPreview,
     countdown: EventPreview,

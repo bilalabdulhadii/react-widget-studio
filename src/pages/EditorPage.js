@@ -74,8 +74,7 @@ function TextArea({ value, onChange, placeholder, rows = 4 }) {
 }
 
 function ColorInput({ value, onChange }) {
-    const normalizedValue =
-        sanitizeWidgetBackgroundColor(value) || "#F7F7F5";
+    const normalizedValue = sanitizeWidgetBackgroundColor(value) || "#F7F7F5";
 
     return (
         <div
@@ -281,9 +280,9 @@ function ClockFields({ params, update }) {
                     onChange={(value) => update("seconds", String(value))}
                     label="Show seconds"
                 />
-                {params.style === "flip" ? (
+                {params.style === "flip" || params.style === "digital" ? (
                     <Toggle
-                        checked={toBoolean(params.showUnitLabels, false)}
+                        checked={toBoolean(params.showUnitLabels, true)}
                         onChange={(value) =>
                             update("showUnitLabels", String(value))
                         }
@@ -963,20 +962,26 @@ export default function EditorPage() {
                             Open embed
                         </Link>
                     </div>
-                    <div className="preview-stage min-h-[470px] rounded-[1.6rem] p-3 transition-colors">
+                    <div
+                        className="preview-stage min-h-[470px] rounded-[1.6rem] p-[50px] transition-colors"
+                        style={{
+                            backgroundImage:
+                                "linear-gradient(to right, color-mix(in srgb, var(--app-primary) 10%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--app-primary) 10%, transparent) 1px, transparent 1px)",
+                            backgroundSize: "24px 24px",
+                        }}>
                         <div className="h-full w-full overflow-x-auto overflow-y-hidden">
-                        <motion.div
-                            key={`${widget.slug}-${embedParams.toString()}`}
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.22 }}
-                            className="h-full min-w-full">
-                            <WidgetRenderer
-                                type={widget.type}
-                                params={params}
-                                fill
-                            />
-                        </motion.div>
+                            <motion.div
+                                key={`${widget.slug}-${embedParams.toString()}`}
+                                initial={{ opacity: 0, scale: 0.98 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.22 }}
+                                className="h-full min-w-full">
+                                <WidgetRenderer
+                                    type={widget.type}
+                                    params={params}
+                                    fill
+                                />
+                            </motion.div>
                         </div>
                     </div>
                     <div
