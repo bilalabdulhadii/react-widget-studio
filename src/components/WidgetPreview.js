@@ -58,7 +58,7 @@ function PreviewCard({ children, className = "", style }) {
     return (
         <div
             className={cx("w-full overflow-hidden", className)}
-            style={{ ...style, borderRadius: "15px" }}>
+            style={{ ...style, borderRadius: "12px" }}>
             {children}
         </div>
     );
