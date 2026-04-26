@@ -36,7 +36,10 @@ const commonModes = ["light", "dark"];
 const defaultBackgroundSettings = {
     mode: "light",
     customBackground: "false",
-    backgroundColor: "#F7F7F5",
+    backgroundColor: "#383836",
+    customBorder: "false",
+    borderColor: "#383836",
+    borderRadius: "15",
 };
 
 const widgetTypeConfigs = {

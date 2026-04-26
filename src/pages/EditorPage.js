@@ -74,7 +74,7 @@ function TextArea({ value, onChange, placeholder, rows = 4 }) {
 }
 
 function ColorInput({ value, onChange }) {
-    const normalizedValue = sanitizeWidgetBackgroundColor(value) || "#F7F7F5";
+    const normalizedValue = sanitizeWidgetBackgroundColor(value) || "#383836";
 
     return (
         <div
@@ -93,7 +93,7 @@ function ColorInput({ value, onChange }) {
                 type="text"
                 value={value || normalizedValue}
                 onChange={(event) => onChange(event.target.value)}
-                placeholder="#F7F7F5"
+                placeholder="#383836"
                 className="min-w-0 max-w-full flex-1 bg-transparent text-sm outline-none"
                 style={{ color: "var(--app-primary)" }}
             />
@@ -816,10 +816,12 @@ export default function EditorPage() {
         () => buildAbsoluteEmbedLink(widget, embedParams),
         [embedParams, widget],
     );
+    const borderRadius =
+        params.borderRadius !== undefined ? params.borderRadius : 15;
     const htmlSnippet = useMemo(
         () =>
-            `<iframe src="${embedLink}" title="${widget?.title || "Widget Studio widget"}" style="width:100%;height:360px;border:0;border-radius:24px;overflow:hidden;" loading="lazy"></iframe>`,
-        [embedLink, widget?.title],
+            `<iframe src="${embedLink}" title="${widget?.title || "Widget Studio widget"}" style="width:100%;height:360px;border:0;border-radius:${borderRadius}px;overflow:hidden;" loading="lazy"></iframe>`,
+        [embedLink, widget?.title, borderRadius],
     );
 
     if (!widget || !config) {
@@ -918,6 +920,23 @@ export default function EditorPage() {
                                     />
                                 </Field>
                             ) : null}
+                            <Toggle
+                                checked={toBoolean(params.customBorder, false)}
+                                onChange={(value) =>
+                                    update("customBorder", String(value))
+                                }
+                                label="Custom border"
+                            />
+                            {toBoolean(params.customBorder, false) ? (
+                                <Field label="Border color">
+                                    <ColorInput
+                                        value={params.borderColor}
+                                        onChange={(value) =>
+                                            update("borderColor", value)
+                                        }
+                                    />
+                                </Field>
+                            ) : null}
                             {showAccentPicker ? (
                                 <AccentPicker
                                     value={params.accent || "sky"}
@@ -926,6 +945,40 @@ export default function EditorPage() {
                                     }
                                 />
                             ) : null}
+                            <div className="min-w-0 max-w-full">
+                                <div className="mb-2 flex items-center justify-between gap-3">
+                                    <p className="app-text-main text-sm font-semibold">
+                                        Border radius
+                                    </p>
+                                    <span className="app-text-muted text-xs font-medium">
+                                        {params.borderRadius !== undefined
+                                            ? params.borderRadius
+                                            : 15}
+                                        px
+                                    </span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="0"
+                                    max="50"
+                                    value={
+                                        params.borderRadius !== undefined
+                                            ? params.borderRadius
+                                            : 15
+                                    }
+                                    onChange={(event) =>
+                                        update(
+                                            "borderRadius",
+                                            event.target.value,
+                                        )
+                                    }
+                                    className="h-2 w-full cursor-pointer appearance-none rounded-full outline-none"
+                                    style={{
+                                        background: "var(--app-border)",
+                                        accentColor: "var(--app-primary)",
+                                    }}
+                                />
+                            </div>
                             <WidgetSpecificFields
                                 key={widget.slug}
                                 type={widget.type}

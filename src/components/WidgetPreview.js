@@ -57,11 +57,8 @@ function PreviewScene({ themeVars, accent, children, className = "" }) {
 function PreviewCard({ children, className = "", style }) {
     return (
         <div
-            className={cx(
-                "w-full overflow-hidden rounded-[1.35rem]",
-                className,
-            )}
-            style={style}>
+            className={cx("w-full overflow-hidden", className)}
+            style={{ ...style, borderRadius: "15px" }}>
             {children}
         </div>
     );

@@ -55,13 +55,6 @@ export default function EmbedPage() {
         params.customBackground,
         false,
     );
-    const pageBackground =
-        embedAppearance === "light" && !customBackgroundEnabled
-            ? "#FFFFFF"
-            : getWidgetPageBackground(params.mode, {
-        customBackground: params.customBackground,
-        backgroundColor: params.backgroundColor,
-              });
 
     useEffect(() => {
         if (!widget) {
@@ -82,16 +75,20 @@ export default function EmbedPage() {
         [document.documentElement, document.body, root]
             .filter(Boolean)
             .forEach((node) => {
-                node.style.background = pageBackground;
-                node.style.backgroundColor = pageBackground;
+                node.style.background = "transparent";
+                node.style.backgroundColor = "transparent";
                 node.style.backgroundImage = "none";
             });
 
         return () => {
-            document.documentElement.classList.remove(`embed-${embedAppearance}`);
+            document.documentElement.classList.remove(
+                `embed-${embedAppearance}`,
+            );
             document.body.classList.remove(`embed-${embedAppearance}`);
             root?.classList.remove(`embed-${embedAppearance}`);
-            document.documentElement.classList.remove("embed-custom-background");
+            document.documentElement.classList.remove(
+                "embed-custom-background",
+            );
             document.body.classList.remove("embed-custom-background");
             root?.classList.remove("embed-custom-background");
             [document.documentElement, document.body, root]
@@ -102,7 +99,7 @@ export default function EmbedPage() {
                     node.style.removeProperty("background-image");
                 });
         };
-    }, [customBackgroundEnabled, embedAppearance, pageBackground, widget]);
+    }, [customBackgroundEnabled, embedAppearance, widget]);
 
     if (!widget && legacyWidget) {
         return (
@@ -121,8 +118,8 @@ export default function EmbedPage() {
         <main
             className="embed-page-root flex min-h-screen w-full items-center justify-center p-0"
             style={{
-                background: pageBackground,
-                backgroundColor: pageBackground,
+                background: "transparent",
+                backgroundColor: "transparent",
                 backgroundImage: "none",
             }}>
             <WidgetRenderer type={widget.type} params={params} embed />
