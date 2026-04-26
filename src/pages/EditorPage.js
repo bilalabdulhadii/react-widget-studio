@@ -817,7 +817,7 @@ export default function EditorPage() {
         [embedParams, widget],
     );
     const borderRadius =
-        params.borderRadius !== undefined ? params.borderRadius : 12;
+        params.borderRadius !== undefined ? params.borderRadius : 15;
     const htmlSnippet = useMemo(
         () =>
             `<iframe src="${embedLink}" title="${widget?.title || "Widget Studio widget"}" style="width:100%;height:360px;border:0;border-radius:${borderRadius}px;overflow:hidden;" loading="lazy"></iframe>`,
@@ -920,23 +920,6 @@ export default function EditorPage() {
                                     />
                                 </Field>
                             ) : null}
-                            <Toggle
-                                checked={toBoolean(params.customBorder, false)}
-                                onChange={(value) =>
-                                    update("customBorder", String(value))
-                                }
-                                label="Custom border"
-                            />
-                            {toBoolean(params.customBorder, false) ? (
-                                <Field label="Border color">
-                                    <ColorInput
-                                        value={params.borderColor}
-                                        onChange={(value) =>
-                                            update("borderColor", value)
-                                        }
-                                    />
-                                </Field>
-                            ) : null}
                             {showAccentPicker ? (
                                 <AccentPicker
                                     value={params.accent || "sky"}
@@ -953,7 +936,7 @@ export default function EditorPage() {
                                     <span className="app-text-muted text-xs font-medium">
                                         {params.borderRadius !== undefined
                                             ? params.borderRadius
-                                            : 12}
+                                            : 15}
                                         px
                                     </span>
                                 </div>
@@ -964,7 +947,7 @@ export default function EditorPage() {
                                     value={
                                         params.borderRadius !== undefined
                                             ? params.borderRadius
-                                            : 12
+                                            : 15
                                     }
                                     onChange={(event) =>
                                         update(

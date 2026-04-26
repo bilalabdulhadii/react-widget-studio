@@ -37,8 +37,6 @@ const defaultBackgroundSettings = {
     mode: "light",
     customBackground: "false",
     backgroundColor: "#383836",
-    customBorder: "false",
-    borderColor: "#383836",
     borderRadius: "12",
 };
 

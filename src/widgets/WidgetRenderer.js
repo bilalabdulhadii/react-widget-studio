@@ -66,8 +66,6 @@ function getWidgetAppearance(params) {
         mode,
         customBackground: toBoolean(params.customBackground, false),
         backgroundColor: cleanText(params.backgroundColor).trim() || "#383836",
-        customBorder: toBoolean(params.customBorder, false),
-        borderColor: cleanText(params.borderColor).trim() || "#383836",
         borderRadius: clampNumber(params.borderRadius, 0, 50, 12),
         tokens: getWidgetTokens(),
     };
@@ -77,8 +75,6 @@ function WidgetFrame({
     mode = "system",
     customBackground = false,
     backgroundColor = "",
-    customBorder = false,
-    borderColor = "#383836",
     borderRadius = 12,
     accentId,
     embed = false,
@@ -133,9 +129,8 @@ function WidgetFrame({
                 ...themeVars,
                 "--widget-accent": accent.color,
                 borderRadius: `${borderRadius}px`,
-                ...(customBorder ? { border: `1px solid ${borderColor}` } : {}),
             }}>
-            {fill && !customBorder ? (
+            {fill ? (
                 <div
                     className="pointer-events-none absolute inset-0 z-50 border-[3px] border-transparent"
                     style={{
@@ -340,15 +335,8 @@ function RangeInput({
 }
 
 function AudioWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const style = audioStyles.some((item) => item.id === params.style)
         ? params.style
         : "minimal";
@@ -884,8 +872,6 @@ function AudioWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -928,15 +914,8 @@ function getClockParts(now, hour12) {
 
 function ClockWidget({ params, embed, preview, fill }) {
     const [now, setNow] = useState(new Date());
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const style = clockStyles.some((item) => item.id === params.style)
         ? params.style
         : "digital";
@@ -1160,8 +1139,6 @@ function ClockWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1173,15 +1150,8 @@ function ClockWidget({ params, embed, preview, fill }) {
 }
 
 function PomodoroWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
     const focusSeconds = clampNumber(params.minutes, 1, 180, 25) * 60;
     const breakSeconds = clampNumber(params.breakMinutes, 1, 60, 5) * 60;
@@ -1232,8 +1202,6 @@ function PomodoroWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1333,15 +1301,8 @@ function getCountdownParts(ms, selectedUnits) {
 
 function CountdownWidget({ params, embed, preview, fill }) {
     const [now, setNow] = useState(Date.now());
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const targetTime = new Date(params.target || "2026-12-31T23:59").getTime();
     const selectedUnits = useMemo(() => {
         const parsedUnits = csv(params.units);
@@ -1363,8 +1324,6 @@ function CountdownWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1400,15 +1359,8 @@ function CountdownWidget({ params, embed, preview, fill }) {
 }
 
 function ProgressWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
     const [value, setValue] = useState(clampNumber(params.value, 0, 100, 68));
 
@@ -1421,8 +1373,6 @@ function ProgressWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1455,15 +1405,8 @@ function ProgressWidget({ params, embed, preview, fill }) {
 }
 
 function DayProgressWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
     const total = clampNumber(params.days, 1, 60, 7);
     const [checked, setChecked] = useState(() => new Set());
@@ -1487,8 +1430,6 @@ function DayProgressWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1547,15 +1488,8 @@ function DayProgressWidget({ params, embed, preview, fill }) {
 }
 
 function HabitTrackerWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
     const count = clampNumber(params.habitCount, 2, 10, 4);
     const habits = Array.from({ length: count })
@@ -1583,8 +1517,6 @@ function HabitTrackerWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1644,15 +1576,8 @@ function HabitTrackerWidget({ params, embed, preview, fill }) {
 }
 
 function FocusCardWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
 
     return (
@@ -1660,8 +1585,6 @@ function FocusCardWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1699,15 +1622,8 @@ function FocusCardWidget({ params, embed, preview, fill }) {
 }
 
 function QuoteWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
 
     return (
@@ -1715,8 +1631,6 @@ function QuoteWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1739,15 +1653,8 @@ function QuoteWidget({ params, embed, preview, fill }) {
 }
 
 function GreetingWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
 
     return (
@@ -1755,8 +1662,6 @@ function GreetingWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1797,15 +1702,8 @@ function getLinks(params) {
 }
 
 function QuickLinksWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
     const links = getLinks(params);
     const columns = links.length > 5 ? 2 : 1;
@@ -1815,8 +1713,6 @@ function QuickLinksWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1872,15 +1768,8 @@ function QuickLinksWidget({ params, embed, preview, fill }) {
 }
 
 function NotesWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
 
     return (
@@ -1888,8 +1777,6 @@ function NotesWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
@@ -1914,15 +1801,8 @@ function NotesWidget({ params, embed, preview, fill }) {
 }
 
 function CounterWidget({ params, embed, preview, fill }) {
-    const {
-        mode,
-        customBackground,
-        backgroundColor,
-        customBorder,
-        borderColor,
-        borderRadius,
-        tokens,
-    } = getWidgetAppearance(params);
+    const { mode, customBackground, backgroundColor, borderRadius, tokens } =
+        getWidgetAppearance(params);
     const accent = getAccent(params.accent);
     const [count, setCount] = useState(clampNumber(params.count, 0, 99999, 12));
 
@@ -1935,8 +1815,6 @@ function CounterWidget({ params, embed, preview, fill }) {
             mode={mode}
             customBackground={customBackground}
             backgroundColor={backgroundColor}
-            customBorder={customBorder}
-            borderColor={borderColor}
             borderRadius={borderRadius}
             accentId={params.accent}
             embed={embed}
