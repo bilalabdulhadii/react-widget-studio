@@ -39,7 +39,7 @@ const defaultBackgroundSettings = {
     backgroundColor: "#383836",
     customBorder: "false",
     borderColor: "#383836",
-    borderRadius: "15",
+    borderRadius: "12",
 };
 
 const widgetTypeConfigs = {

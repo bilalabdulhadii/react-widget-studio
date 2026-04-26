@@ -68,7 +68,7 @@ function getWidgetAppearance(params) {
         backgroundColor: cleanText(params.backgroundColor).trim() || "#383836",
         customBorder: toBoolean(params.customBorder, false),
         borderColor: cleanText(params.borderColor).trim() || "#383836",
-        borderRadius: clampNumber(params.borderRadius, 0, 50, 15),
+        borderRadius: clampNumber(params.borderRadius, 0, 50, 12),
         tokens: getWidgetTokens(),
     };
 }
@@ -79,7 +79,7 @@ function WidgetFrame({
     backgroundColor = "",
     customBorder = false,
     borderColor = "#383836",
-    borderRadius = 15,
+    borderRadius = 12,
     accentId,
     embed = false,
     preview = false,

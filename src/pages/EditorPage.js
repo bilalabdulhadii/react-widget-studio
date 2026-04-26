@@ -817,7 +817,7 @@ export default function EditorPage() {
         [embedParams, widget],
     );
     const borderRadius =
-        params.borderRadius !== undefined ? params.borderRadius : 15;
+        params.borderRadius !== undefined ? params.borderRadius : 12;
     const htmlSnippet = useMemo(
         () =>
             `<iframe src="${embedLink}" title="${widget?.title || "Widget Studio widget"}" style="width:100%;height:360px;border:0;border-radius:${borderRadius}px;overflow:hidden;" loading="lazy"></iframe>`,
@@ -953,7 +953,7 @@ export default function EditorPage() {
                                     <span className="app-text-muted text-xs font-medium">
                                         {params.borderRadius !== undefined
                                             ? params.borderRadius
-                                            : 15}
+                                            : 12}
                                         px
                                     </span>
                                 </div>
@@ -964,7 +964,7 @@ export default function EditorPage() {
                                     value={
                                         params.borderRadius !== undefined
                                             ? params.borderRadius
-                                            : 15
+                                            : 12
                                     }
                                     onChange={(event) =>
                                         update(
