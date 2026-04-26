@@ -7,11 +7,7 @@ import {
 } from "../data/widgets";
 import { normalizeParams, paramsToObject } from "../utils/query";
 import WidgetRenderer from "../widgets/WidgetRenderer";
-import {
-    getWidgetPageBackground,
-    resolveWidgetTheme,
-    toWidgetBoolean,
-} from "../widgets/widgetTheme";
+import { resolveWidgetTheme, toWidgetBoolean } from "../widgets/widgetTheme";
 
 export default function EmbedPage() {
     const { slug } = useParams();
